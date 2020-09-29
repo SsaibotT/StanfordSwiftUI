@@ -10,43 +10,47 @@ import Foundation
 import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
-    var cards: [Card]
+    var gameContent = GameContent(themeName: "", cards: [MemoryGame.Card]())
     
     var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        get { cards.indices.filter { cards[$0].isFaceUp }.only }
-        set { cards.indices.forEach { cards[$0].isFaceUp = $0 == newValue } }
+        mutating get { gameContent.cards.indices.filter { gameContent.cards[$0].isFaceUp }.only }
+        set { gameContent.cards.indices.forEach { gameContent.cards[$0].isFaceUp = $0 == newValue } }
     }
     
-    init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
-        
-        cards = []
+    init(numberOfPairsOfCards: Int, themeName: String, cardContentFactory: (Int) -> CardContent) {
         
         for pairIndex in 0..<numberOfPairsOfCards {
-            let content = cardContentFactory(pairIndex)
+            let content = cardContentFactory(pairIndex) //function that returns cardContent
 
-            cards.append(Card(content: content, id: pairIndex * 2))
-            cards.append(Card(content: content, id: pairIndex * 2 + 1))
+            gameContent.cards.append(Card(content: content, id: pairIndex * 2))
+            gameContent.cards.append(Card(content: content, id: pairIndex * 2 + 1))
         }
         
-        cards.shuffle()
+        gameContent.cards.shuffle()
+        gameContent.themeName = themeName
     }
     
     mutating func choose(card: Card) {
         print("chosen card: \(card)")
         
-        guard let chosenIndex = cards.firstIndex(matching: card) else { return }
-        guard !cards[chosenIndex].isFaceUp else { return }
+        guard let chosenIndex = gameContent.cards.firstIndex(matching: card) else { return }
+        guard !gameContent.cards[chosenIndex].isFaceUp else { return }
 
         if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
-            if cards[chosenIndex].content == cards[potentialMatchIndex].content {
-                cards[chosenIndex].isMatched = true
-                cards[potentialMatchIndex].isMatched = true
+            if gameContent.cards[chosenIndex].content == gameContent.cards[potentialMatchIndex].content {
+                gameContent.cards[chosenIndex].isMatched = true
+                gameContent.cards[potentialMatchIndex].isMatched = true
             }
-            self.cards[chosenIndex].isFaceUp = true
+            self.gameContent.cards[chosenIndex].isFaceUp = true
         } else {
 
             indexOfTheOneAndOnlyFaceUpCard = chosenIndex
         }
+    }
+    
+    struct GameContent {
+        var themeName: String
+        var cards: [Card]
     }
     
     struct Card: Identifiable {
