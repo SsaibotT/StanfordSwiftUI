@@ -26,6 +26,14 @@ struct EmojiMemoryView: View {
                 }
             }
             .padding()
+            
+            Button("Start new Game") {
+                viewModel.createNewGame()
+            }
+            .padding()
+            .background(Color.blue)
+            .foregroundColor(Color.white)
+            .cornerRadius(10)
         }
     }
 }

@@ -16,9 +16,9 @@ class EmojiMemoryGameViewModel: ObservableObject {
         return model.gameContent
     }
     
-    // MARK: - Internal
     @Published private var model: MemoryGame<CardContent> = EmojiMemoryGameViewModel.createMemoryGame()
     
+    // MARK: - Internal
     static func createMemoryGame() -> MemoryGame<CardContent> {
         
         let theme = ThemeManager.shared.getRandomTheme()
@@ -30,6 +30,10 @@ class EmojiMemoryGameViewModel: ObservableObject {
     }
     
     // MARK: - Intents
+    func createNewGame() {
+        model = EmojiMemoryGameViewModel.createMemoryGame()
+    }
+    
     func choose(card: MemoryGame<CardContent>.Card) {
         model.choose(card: card)
     }
