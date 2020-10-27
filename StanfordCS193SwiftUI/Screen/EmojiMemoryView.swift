@@ -15,8 +15,13 @@ struct EmojiMemoryView: View {
     var body: some View {
         
         VStack {
-            Text(viewModel.gameContent.themeName)
-                .padding()
+            HStack {
+                Text(viewModel.gameContent.themeName)
+                    .padding()
+                
+                Text("\(viewModel.gameContent.points)")
+                    .padding()
+            }
             
             HStack {
                 Grid(viewModel.gameContent.cards) { card in
