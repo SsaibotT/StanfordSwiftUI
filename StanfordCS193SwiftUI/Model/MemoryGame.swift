@@ -13,7 +13,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     var gameContent = GameContent(themeName: "", cards: [MemoryGame.Card]())
     
     var indexOfTheOneAndOnlyFaceUpCard: Int? {
-        mutating get { gameContent.cards.indices.filter { gameContent.cards[$0].isFaceUp }.only }
+        get { gameContent.cards.indices.filter { gameContent.cards[$0].isFaceUp }.only }
         set { gameContent.cards.indices.forEach { gameContent.cards[$0].isFaceUp = $0 == newValue } }
     }
     

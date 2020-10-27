@@ -28,9 +28,6 @@ class ThemeManager {
         
         return randomTheme
     }
-}
-
-extension ThemeManager {
     
     private func generateTheme(emojis: [String], color: Color) -> [CardContent] {
         var content = [CardContent]()
