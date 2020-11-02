@@ -53,22 +53,19 @@ struct CardView: View {
         }
     }
     
+    @ViewBuilder
     func body(for size: CGSize) -> some View {
-        ZStack {
-            if self.card.isFaceUp {
-                RoundedRectangle(cornerRadius: 10.0).fill(Color.white)
-                RoundedRectangle(cornerRadius: 10.0).stroke(lineWidth: 3)
+        if card.isFaceUp || !card.isMatched {
+            ZStack {
+                Pie(startAngle: Angle.degrees(0-90), endAngle: Angle(degrees: 110-90), clockwise: true)
+                    .padding(5).opacity(0.4)
                 Text(self.card.content.emoji)
-            } else {
-                
-                if !card.isMatched {
-                    RoundedRectangle(cornerRadius: 10.0).fill()
-                }
             }
+            .cardify(isFaceUp: card.isFaceUp)
+            .font(Font.system(size: fontSize(for: size)))
+            .padding(5)
+            .foregroundColor(card.content.color)
         }
-        .font(Font.system(size: fontSize(for: size)))
-        .padding(5)
-        .foregroundColor(card.content.color)
     }
     
     func fontSize(for size: CGSize) -> CGFloat {
@@ -78,9 +75,8 @@ struct CardView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            EmojiMemoryView(viewModel: EmojiMemoryGameViewModel())
-            EmojiMemoryView(viewModel: EmojiMemoryGameViewModel())
-        }
+        let game = EmojiMemoryGameViewModel()
+        game.choose(card: game.gameContent.cards[0])
+        return EmojiMemoryView(viewModel: game)
     }
 }
