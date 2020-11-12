@@ -15,7 +15,7 @@ class ThemeManager {
     static let shared = ThemeManager()
     
     func getRandomTheme() -> Theme {
-        
+        print("some other changes")
         let halloweenTheme = generateTheme(emojis: ["👻", "🎃", "💩", "👺", "👾"], color: .orange)
         let animalTheme = generateTheme(emojis: ["🐶", "🐰", "🐌", "🐒", "🐨"], color: .green)
         let sportTheme = generateTheme(emojis: ["⚽️", "🏀", "🏈", "⚾️", "🏐"], color: .blue)
