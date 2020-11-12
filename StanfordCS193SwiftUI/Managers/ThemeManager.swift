@@ -26,6 +26,7 @@ class ThemeManager {
                            Theme(name: "Sport", cards: sportTheme)]
             .randomElement()!
         
+        print("AND HERE")
         return randomTheme
     }
     
